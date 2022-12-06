@@ -2,11 +2,10 @@
 
 Music::Music() {}
 
-Music::Music(float artist_familiarity, float artist_hotness, string artist_id, float artist_latitude, float artist_longitude, string artist_name,
-	float artist_similar, string artist_terms, float artist_terms_freq,
+Music::Music(float artist_hotness, string artist_id, float artist_latitude, float artist_longitude, 
+    string artist_name, string artist_terms, float artist_terms_freq,
     string song_id, float song_loudness, int song_year) {
 
-    this->artist_familiarity = artist_familiarity;
     this->artist_hotness = artist_hotness;
     this->artist_id = artist_id;
     this->artist_latitude = artist_latitude;

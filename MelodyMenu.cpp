@@ -17,14 +17,6 @@ void printTimeTakenHashMap(std::chrono::milliseconds duration);
 void printTimeTakenGraph(std::chrono::milliseconds duration);
 void printRepeatProgram();
 void runSearch(int menuChoice, set<string>& genres);
-/*void loadData(vector<float>& artist_familiarity, vector<float>& artist_hotness, vector<string>& artist_id, vector<float>& artist_latitude, vector<int>& artist_location,
-    vector<float>& artist_longitude, vector<string>& artist_name, vector<float>& artist_similar, vector<string>& artist_terms, vector<float>& artist_terms_freq,
-    vector<int>& release_id, vector<int>& release_name, vector<float>& song_artist_mbtags, vector<float>& song_artist_mbtags_count, vector<float>& song_bars_confidence,
-    vector<float>& song_bars_start, vector<float>& song_beats_confidence, vector<float>& song_beats_start, vector<float>& song_duration, vector<float>& song_end_of_fade_in,
-    vector<float>& song_hotness, vector<string>& song_id, vector<float>& song_key, vector<float>& song_key_confidence, vector<float>& song_loudness, vector<int>& song_mode,
-    vector<float>& song_mode_confidence, vector<float>& song_start_of_fade_out, vector<float>& song_tatums_confidence, vector<float>& song_tatums_start, vector<float>& song_tempo,
-    vector<float>& song_time_signature, vector<float>& song_time_signature_confidence, vector<int>& song_title, vector<int>& song_year, vector<Music>& musicData);*/
-
 void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<float>& artist_latitude, vector<float>& artist_longitude, 
     vector<string>& artist_name, vector<string>& artist_terms, vector<float>& artist_terms_freq, vector<string>& song_id, 
     vector<float>& song_loudness, vector<int>& song_year, vector<Music>& musicData);
@@ -37,51 +29,18 @@ int main()
     vector<Music> musicData;
     set<string> genres;
     
-    //vector<float> artist_familiarity;
     vector<float> artist_hotness;
     vector<string> artist_id;
     vector<float> artist_latitude;
-    //vector<int> artist_location;
     vector<float> artist_longitude;
     vector<string> artist_name;
-    //vector<float> artist_similar;
     vector<string> artist_terms;
     vector<float> artist_terms_freq;
-    //vector<int> release_id;
-    //vector<int> release_name;
-    //vector<float> song_artist_mbtags;
-    //vector<float> song_artist_mbtags_count;
-    //vector<float> song_bars_confidence;
-    //vector<float> song_bars_start;
-    //vector<float> song_beats_confidence;
-    //vector<float> song_beats_start;
-    //vector<float> song_duration;
-    //vector<float> song_end_of_fade_in;
-    //vector<float> song_hotness;
     vector<string> song_id;
-    //vector<float> song_key;
-    //vector<float> song_key_confidence;
     vector<float> song_loudness;
-    //vector<int> song_mode;
-    //vector<float> song_mode_confidence;
-    //vector<float> song_start_of_fade_out;
-    //vector<float> song_tatums_confidence;
-    //vector<float> song_tatums_start;
-    //vector<float> song_tempo;
-    //vector<float> song_time_signature;
-    //vector<float> song_time_signature_confidence;
-    //vector<int> song_title;
     vector<int> song_year;
 
     srand((unsigned)time(NULL));
-
-    /*loadData(artist_familiarity, artist_hotness, artist_id, artist_latitude, artist_location,
-        artist_longitude, artist_name, artist_similar, artist_terms, artist_terms_freq,
-        release_id, release_name, song_artist_mbtags, song_artist_mbtags_count, song_bars_confidence,
-        song_bars_start, song_beats_confidence, song_beats_start, song_duration, song_end_of_fade_in,
-        song_hotness, song_id, song_key, song_key_confidence, song_loudness, song_mode,
-        song_mode_confidence, song_start_of_fade_out, song_tatums_confidence, song_tatums_start, song_tempo,
-        song_time_signature, song_time_signature_confidence, song_title, song_year, musicData);*/
 
     loadData(artist_hotness, artist_id, artist_latitude,
         artist_longitude, artist_name, artist_terms, artist_terms_freq,
@@ -115,184 +74,6 @@ int main()
 
 }
 
-/*void loadData(vector<float>& artist_familiarity, vector<float>& artist_hotness, vector<string>& artist_id, vector<float>& artist_latitude, vector<int>& artist_location,
-    vector<float>& artist_longitude, vector<string>& artist_name, vector<float>& artist_similar, vector<string>& artist_terms, vector<float>& artist_terms_freq,
-    vector<int>& release_id, vector<int>& release_name, vector<float>& song_artist_mbtags, vector<float>& song_artist_mbtags_count, vector<float>& song_bars_confidence,
-    vector<float>& song_bars_start, vector<float>& song_beats_confidence, vector<float>& song_beats_start, vector<float>& song_duration, vector<float>& song_end_of_fade_in,
-    vector<float>& song_hotness, vector<string>& song_id, vector<float>& song_key, vector<float>& song_key_confidence, vector<float>& song_loudness, vector<int>& song_mode,
-    vector<float>& song_mode_confidence, vector<float>& song_start_of_fade_out, vector<float>& song_tatums_confidence, vector<float>& song_tatums_start, vector<float>& song_tempo,
-    vector<float>& song_time_signature, vector<float>& song_time_signature_confidence, vector<int>& song_title, vector<int>& song_year, vector<Music>& musicData) {
-
-    ifstream dataFile("music.csv");
-    string line;
-    string token;
-    Music music;
-    int i = 0;
-
-    if (!dataFile.is_open()) {
-        throw runtime_error("File could not be opened");
-    }
-
-    if (dataFile.good()) {
-        //read through first line of column names
-        getline(dataFile, line);
-
-        //get tokens from each column and store in vectors
-        while (getline(dataFile, line)) {
-            istringstream s(line);
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_familiarity.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_hotness.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_id.push_back(token);
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_latitude.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_location.push_back(stoi(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_longitude.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_name.push_back(token);
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_similar.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_terms.push_back(token);
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            artist_terms_freq.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            release_id.push_back(stoi(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            release_name.push_back(stoi(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_artist_mbtags.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_artist_mbtags_count.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_bars_confidence.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_bars_start.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_beats_confidence.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_beats_start.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_duration.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_end_of_fade_in.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_hotness.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_id.push_back(token);
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_key.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_key_confidence.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_loudness.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_mode.push_back(stoi(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_mode_confidence.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_start_of_fade_out.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_tatums_confidence.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_tatums_start.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_tempo.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_time_signature.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_time_signature_confidence.push_back(stof(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_title.push_back(stoi(token));
-
-            getline(s, token, ',');
-            token = token.substr(1, token.size() - 2);
-            song_year.push_back(stoi(token));
-
-            musicData.push_back(Music(artist_familiarity[i], artist_hotness[i], artist_id[i], artist_latitude[i], artist_location[i], artist_longitude[i],
-                artist_name[i], artist_similar[i], artist_terms[i], artist_terms_freq[i], release_id[i], release_name[i], song_artist_mbtags[i], song_artist_mbtags_count[i],
-                song_bars_confidence[i], song_bars_start[i], song_beats_confidence[i], song_beats_start[i], song_duration[i], song_end_of_fade_in[i], song_hotness[i],
-                song_id[i], song_key[i], song_key_confidence[i], song_loudness[i], song_mode[i], song_mode_confidence[i], song_start_of_fade_out[i], song_tatums_confidence[i], song_tatums_start[i],
-                song_tempo[i], song_time_signature[i], song_time_signature_confidence[i], song_title[i], song_year[i]));
-
-            i++;
-        }
-    }
-}
-*/
-
 void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<float>& artist_latitude, vector<float>& artist_longitude,
     vector<string>& artist_name, vector<string>& artist_terms, vector<float>& artist_terms_freq, vector<string>& song_id,
     vector<float>& song_loudness, vector<int>& song_year, vector<Music>& musicData) {
@@ -316,9 +97,6 @@ void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<f
             istringstream s(line);
 
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //artist_familiarity.push_back(stof(token));
-
             getline(s, token, ',');
             token = token.substr(1, token.size() - 2);
             artist_hotness.push_back(stof(token));
@@ -332,9 +110,6 @@ void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<f
             artist_latitude.push_back(stof(token));
 
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //artist_location.push_back(stoi(token));
-
             getline(s, token, ',');
             token = token.substr(1, token.size() - 2);
             artist_longitude.push_back(stof(token));
@@ -344,9 +119,6 @@ void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<f
             artist_name.push_back(token);
 
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //artist_similar.push_back(stof(token));
-
             getline(s, token, ',');
             token = token.substr(1, token.size() - 2);
             artist_terms.push_back(token);
@@ -356,101 +128,35 @@ void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<f
             artist_terms_freq.push_back(stof(token));
 
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //release_id.push_back(stoi(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //release_name.push_back(stoi(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_artist_mbtags.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_artist_mbtags_count.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_bars_confidence.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_bars_start.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_beats_confidence.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_beats_start.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_duration.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_end_of_fade_in.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_hotness.push_back(stof(token));
-
             getline(s, token, ',');
             token = token.substr(1, token.size() - 2);
             song_id.push_back(token);
 
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_key.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_key_confidence.push_back(stof(token));
-
             getline(s, token, ',');
             token = token.substr(1, token.size() - 2);
             song_loudness.push_back(stof(token));
 
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_mode.push_back(stoi(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_mode_confidence.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_start_of_fade_out.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_tatums_confidence.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_tatums_start.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_tempo.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_time_signature.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_time_signature_confidence.push_back(stof(token));
-
             getline(s, token, ',');
-            //token = token.substr(1, token.size() - 2);
-            //song_title.push_back(stoi(token));
-
             getline(s, token, ',');
             token = token.substr(1, token.size() - 2);
             song_year.push_back(stoi(token));

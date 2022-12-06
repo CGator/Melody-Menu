@@ -5,7 +5,6 @@ using namespace std;
 
 class Music {
 public:
-    float artist_familiarity;
     float artist_hotness;
     string artist_id;
     float artist_latitude;
@@ -19,7 +18,7 @@ public:
 
     Music();
 
-	Music(float artist_familiarity, float artist_hotness, string artist_id, float artist_latitude, float artist_longitude, string artist_name,
-		float artist_similar, string artist_terms, float artist_terms_freq,
+	Music(float artist_hotness, string artist_id, float artist_latitude, float artist_longitude, string artist_name,
+		string artist_terms, float artist_terms_freq,
 		string song_id, float song_loudness, int song_year);
 };
