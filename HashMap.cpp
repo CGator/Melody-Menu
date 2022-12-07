@@ -56,15 +56,18 @@ std::vector<Music*> HashMap::search(int type, std::string input)
 						if (arr[i]->song_loudness < -25.0f) {
 							returnList.push_back(arr[i]);
 						}
+						break;
 					case 1:
 						// year and hotness, 0 and 0, ur mom
 						if (arr[i]->artist_hotness > 0.5f && arr[i]->song_year < 1975) {
 							returnList.push_back(arr[i]);
 						}
+						break;
 					case 2:
 						if (arr[i]->artist_latitude < 45.0f) {
 							returnList.push_back(arr[i]);
 						}
+						break;
 					default:
 						break;
 				}
