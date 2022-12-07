@@ -11,7 +11,8 @@ class HashMap {
 	Music **arr = new Music*[10000];
 	int end = 0;
 	std::vector<int> indices;
-
+	
+public:
 	//	Functions:
 	std::vector<Music> search(int type, std::string input);
 

@@ -4,31 +4,36 @@
 #include <sstream>
 #include <vector>
 #include <set>
+#include <string>
 
 #include "Music.h"
+#include "HashMap.h"
 
 using namespace std;
 using namespace std::chrono;
 
 void printWelcome();
 void printSearchMenu();
-void printOutput();
+void printOutput(vector<Music>& results);
 void printTimeTakenHashMap(std::chrono::milliseconds duration);
 void printTimeTakenGraph(std::chrono::milliseconds duration);
 void printRepeatProgram();
-void runSearch(int menuChoice, set<string>& genres);
-void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<float>& artist_latitude, vector<float>& artist_longitude, 
-    vector<string>& artist_name, vector<string>& artist_terms, vector<float>& artist_terms_freq, vector<string>& song_id, 
+void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vector<Music>& musicData);
+void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<float>& artist_latitude, vector<float>& artist_longitude,
+    vector<string>& artist_name, vector<string>& artist_terms, vector<float>& artist_terms_freq, vector<string>& song_id,
     vector<float>& song_loudness, vector<int>& song_year, vector<Music>& musicData);
+void loadHashMap(HashMap& hashmapMusic, vector<Music>& musicData);
 
 int main()
 {
     int menuChoice;
     bool continueProgram = true;
 
+    HashMap hashmapMusic;
+
     vector<Music> musicData;
     set<string> genres;
-    
+
     vector<float> artist_hotness;
     vector<string> artist_id;
     vector<float> artist_latitude;
@@ -46,6 +51,8 @@ int main()
         artist_longitude, artist_name, artist_terms, artist_terms_freq,
         song_id, song_loudness, song_year, musicData);
 
+    loadHashMap(hashmapMusic, musicData);
+
     for (string genre : artist_terms) {
         genres.insert(genre);
     }
@@ -57,9 +64,14 @@ int main()
 
         cin >> menuChoice;
 
+        while (menuChoice < 0 || menuChoice > 5) {
+            cout << "Please choose a valid option!" << endl;
+
+            cin >> menuChoice;
+        }
+
         if (menuChoice != 0) {
-            runSearch(menuChoice, genres);
-            printOutput();
+            runSearch(menuChoice, genres, hashmapMusic, musicData);
             printRepeatProgram();
 
             cin >> menuChoice;
@@ -168,6 +180,13 @@ void loadData(vector<float>& artist_hotness, vector<string>& artist_id, vector<f
         }
     }
 }
+
+void loadHashMap(HashMap& hashmapMusic, vector<Music>& musicData) {
+    for (int i = 0; i < musicData.size(); i++) {
+        hashmapMusic.put(&musicData[i]);
+    }
+}
+
 void printWelcome() {
     cout << "Welcome to the Melody Menu!!!" << endl;
     cout << endl;
@@ -184,20 +203,21 @@ void printSearchMenu() {
     cout << "Search for:" << endl;
     cout << "\t1. Artist" << endl;
     cout << "\t2. Genre" << endl;
-    cout << "\t3. Tempo" << endl;
-    cout << "\t4. Time Signature" << endl;
-    cout << "\t5. Duration" << endl;
-    cout << "\t6. Year" << endl;
-    cout << "\t7. Key" << endl;
-    cout << "\t8. Hotness" << endl;
-    cout << "\t9. CRAZY SEARCH" << endl;
+    cout << "\t3. Hotness Factor" << endl;
+    cout << "\t4. Year" << endl;
+    cout << "\t5. Crazy Search" << endl;
     cout << endl;
     cout << "\t0. Exit Program" << endl;
 }
 
-void printOutput() {
+void printOutput(vector<Music>& results) {
     cout << endl;
     cout << "Here's your results!!!" << endl;
+
+    for (int i = 0; i < results.size(); i++) {
+        cout << "\t" << i + 1 << ". " << results[i].artist_name << endl;
+    }
+
     cout << endl;
 }
 
@@ -221,9 +241,14 @@ void printRepeatProgram() {
 }
 
 //adjust this function based on data structures when we know how they function
-void runSearch(int menuChoice, set<string>& genres) {
+void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vector<Music>& musicData) {
     string input;
+    string name;
+    //float inputFloat;
+    //int inputInt;
     bool valid;
+
+    vector<Music> results;
 
     auto start = high_resolution_clock::now();
     auto stop = high_resolution_clock::now();
@@ -232,11 +257,11 @@ void runSearch(int menuChoice, set<string>& genres) {
     switch (menuChoice) {
     case 1:
 
-        cout << "What artist did you want to search for?" << endl;
-        cin >> input;
+        cout << "What artist did you have in mind?" << endl;
+        getline(cin >> ws, input);
 
         start = high_resolution_clock::now();
-        //insert search function here
+        hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
         printTimeTakenHashMap(duration);
@@ -255,7 +280,7 @@ void runSearch(int menuChoice, set<string>& genres) {
         while (!valid) {
 
             cout << "What genre are you interested in?" << endl;
-            cin >> input;
+            getline(cin >> ws, input);
 
             if (genres.find(input) == genres.end()) {
                 cout << "Unfortunately we don't have that genre in our database. Maybe try another?" << endl;
@@ -266,11 +291,11 @@ void runSearch(int menuChoice, set<string>& genres) {
         }
 
         start = high_resolution_clock::now();
-        //insert search function here
+        hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
         printTimeTakenHashMap(duration);
-        
+
         start = high_resolution_clock::now();
         //insert search function here
         stop = high_resolution_clock::now();
@@ -281,11 +306,11 @@ void runSearch(int menuChoice, set<string>& genres) {
 
     case 3:
 
-        cout << "Got a tempo in mind? What is it?" << endl;
+        cout << "How hot do you want it? Enter a number from 0 - 100:" << endl;
         cin >> input;
 
         start = high_resolution_clock::now();
-        //insert search function here
+        hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
         printTimeTakenHashMap(duration);
@@ -300,11 +325,11 @@ void runSearch(int menuChoice, set<string>& genres) {
 
     case 4:
 
-        cout << "What's your favorite time signature?" << endl;
+        cout << "Oh you want music from a specific time? You got it. Just give me a year!" << endl;
         cin >> input;
 
         start = high_resolution_clock::now();
-        //insert search function here
+        hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
         printTimeTakenHashMap(duration);
@@ -319,83 +344,13 @@ void runSearch(int menuChoice, set<string>& genres) {
 
     case 5:
 
-        cout << "How long are you thinking? In seconds please." << endl;
-        cin >> input;
+        int randomSearchNum = (rand() % 4) + 1;
+        int randomMusicNum = rand() % musicData.size();
 
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenHashMap(duration);
-
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenGraph(duration);
-
-        break;
-
-    case 6:
-        cout << "Give me a year!" << endl;
-        cin >> input;
-
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenHashMap(duration);
-
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenGraph(duration);
-
-        break;
-
-    case 7:
-        cout << "Want everything in the same key? Enter 0-11:" << endl;
-        cin >> input;
-
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenHashMap(duration);
-
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenGraph(duration);
-
-        break;
-
-    case 8:
-
-        cout << "Oh so you want what's hot! You got it." << endl;
-
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenHashMap(duration);
-
-        start = high_resolution_clock::now();
-        //insert search function here
-        stop = high_resolution_clock::now();
-        duration = duration_cast<milliseconds>(stop - start);
-        printTimeTakenGraph(duration);
-
-        break;
-
-    case 9:
-        
         cout << "Let's get crazy!!!" << endl;
 
         start = high_resolution_clock::now();
-        //insert search function here
+        hashmapMusic.search(randomSearchNum, musicData[randomMusicNum].artist_name);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
         printTimeTakenHashMap(duration);
