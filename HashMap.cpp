@@ -24,6 +24,9 @@ std::vector<Music*> HashMap::search(int type, std::string input)
 		if (arr[i] == nullptr) {
 			continue;
 		}
+		if (returnList.size() >= 10) {
+			break;	
+		}
 		switch (type) {
 			
 			case 2:
@@ -89,6 +92,5 @@ Music* HashMap::get(std::string artist_id)
 	key += (int) artist_id.at(artist_id.size() - 1);
 	key += (int) artist_id.at(artist_id.size() - 2) * 100;
 
-	std::cout << key;
 	return arr[key % 10000];
 }
