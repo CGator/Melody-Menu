@@ -1,21 +1,20 @@
 #pragma once
 #include <map>
 #include <vector>
+#include <iostream>
 #include "Music.h"
 
 class HashMap {
 	// using Music placeholder until we have the actual datastructure ready
 
 	//	Data:
-	std::map<int, Music> map;
-	std::vector<Music> arr;
+	Music **arr = new Music*[10000];
+	int end = 0;
+	std::vector<int> indices;
 
 	//	Functions:
-	int Hash(Music m);
-	std::vector<Music> linearSearch(int searchType);
-	std::vector<Music> search(std::string input);
-	Music getByKey(int key);
+	std::vector<Music> search(int type, std::string input);
 
-	void put(const Music &m);
+	void put(Music* m);
 	Music get(std::string key);
 };
