@@ -65,12 +65,13 @@ int main()
         cin >> menuChoice;
 
         while (menuChoice < 0 || menuChoice > 5) {
-            cout << "Please choose a valid option!" << endl;
+            cout << "\nPlease choose a valid option!" << endl;
 
             cin >> menuChoice;
         }
 
         if (menuChoice != 0) {
+            cout << endl;
             runSearch(menuChoice, genres, hashmapMusic, musicData);
             printRepeatProgram();
 
@@ -248,7 +249,7 @@ void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vecto
     //int inputInt;
     bool valid;
 
-    vector<Music> results;
+    vector<Music> resultsHashMap;
 
     auto start = high_resolution_clock::now();
     auto stop = high_resolution_clock::now();
@@ -261,9 +262,10 @@ void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vecto
         getline(cin >> ws, input);
 
         start = high_resolution_clock::now();
-        hashmapMusic.search(menuChoice, input);
+        resultsHashMap = hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
+        printOutput(resultsHashMap);
         printTimeTakenHashMap(duration);
 
         start = high_resolution_clock::now();
@@ -291,9 +293,10 @@ void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vecto
         }
 
         start = high_resolution_clock::now();
-        hashmapMusic.search(menuChoice, input);
+        resultsHashMap = hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
+        printOutput(resultsHashMap);
         printTimeTakenHashMap(duration);
 
         start = high_resolution_clock::now();
@@ -310,9 +313,10 @@ void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vecto
         cin >> input;
 
         start = high_resolution_clock::now();
-        hashmapMusic.search(menuChoice, input);
+        resultsHashMap = hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
+        printOutput(resultsHashMap);
         printTimeTakenHashMap(duration);
 
         start = high_resolution_clock::now();
@@ -329,9 +333,10 @@ void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vecto
         cin >> input;
 
         start = high_resolution_clock::now();
-        hashmapMusic.search(menuChoice, input);
+        resultsHashMap = hashmapMusic.search(menuChoice, input);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
+        printOutput(resultsHashMap);
         printTimeTakenHashMap(duration);
 
         start = high_resolution_clock::now();
@@ -350,9 +355,10 @@ void runSearch(int menuChoice, set<string>& genres, HashMap& hashmapMusic, vecto
         cout << "Let's get crazy!!!" << endl;
 
         start = high_resolution_clock::now();
-        hashmapMusic.search(randomSearchNum, musicData[randomMusicNum].artist_name);
+        resultsHashMap = hashmapMusic.search(randomSearchNum, musicData[randomMusicNum].artist_name);
         stop = high_resolution_clock::now();
         duration = duration_cast<milliseconds>(stop - start);
+        printOutput(resultsHashMap);
         printTimeTakenHashMap(duration);
 
         start = high_resolution_clock::now();
